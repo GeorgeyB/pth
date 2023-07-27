@@ -1,0 +1,32 @@
+{
+    "name": "post-type-helper",
+    "version": "1.0.0",
+    "description": "=== Plugin Name === Contributors: (this should be a list of wordpress.org userid's) Donate link: https://www.matebyamate.co.uk Tags: comments, spam Requires at least: 3.0.1 Tested up to: 3.4 Stable tag: 4.3 License: GPLv2 or later License URI: http://www.gnu.org/licenses/gpl-2.0.html",
+    "private": false,
+    "scripts": {
+        "dev": "cross-env NODE_ENV=development webpack watch",
+        "build": "cross-env NODE_ENV=production webpack"
+    },
+    "browserslist": [
+        "last 2 version"
+    ],
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@babel/core": "^7.16.7",
+        "@babel/preset-env": "^7.16.8",
+        "@types/debounce": "^1.2.1",
+        "@types/jquery": "^3.5.13",
+        "babel-loader": "^8.2.3",
+        "cross-env": "^7.0.3",
+        "ts-loader": "^9.2.6",
+        "typescript": "^4.5.4",
+        "webpack": "^5.66.0",
+        "webpack-cli": "^4.9.1",
+        "webpack-manifest-plugin": "^4.1.1"
+    },
+    "dependencies": {
+        "debounce": "^1.2.1"
+    }
+}
