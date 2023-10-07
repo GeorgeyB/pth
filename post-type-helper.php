@@ -16,7 +16,7 @@
  * Plugin Name:       Post Type Helper
  * Plugin URI:        https://www.matebyamate.co.uk
  * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
- * Version:           1.0.0
+ * Version:           1.0.2
  * Author:            George Batt
  * Author URI:        https://www.matebyamate.co.uk
  * License:           GPL-2.0+
@@ -29,7 +29,7 @@ if (!defined('WPINC')) {
 	die;
 }
 
-define('POST_TYPE_HELPER_VERSION', '1.0.0');
+define('POST_TYPE_HELPER_VERSION', '1.0.2');
 
 define('POST_TYPE_HELPER_ROOT', __FILE__);
 
