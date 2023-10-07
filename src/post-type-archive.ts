@@ -1,16 +1,6 @@
 import { Filter, GetPostsParams, GetPostsPayload, State } from "./types";
 import debounce from "debounce";
 
-function getUrlQuery() {
-  const match = window.location.href.match("q/(.*)");
-
-  if (!match) {
-    return "";
-  }
-
-  return match[1];
-}
-
 function buildQueryFromFilters(filters: Filter[]) {
   const filtersObj = filters.reduce<{ [key: string]: string[] }>(
     (acc, curr) => ({
@@ -23,12 +13,7 @@ function buildQueryFromFilters(filters: Filter[]) {
   return Object.keys(filtersObj)
     .sort()
     .map((taxonomy) => {
-      return `${taxonomy}/${filtersObj[taxonomy]
-        .sort()
-        // TODO underscore replace hack, should really fetch the
-        // real taxonomy slug from somewhere instead
-        .map((term) => `${term}`)
-        .join("/")}`;
+      return `${taxonomy}/${filtersObj[taxonomy].sort().join("/")}`;
     })
     .join("/");
 }
