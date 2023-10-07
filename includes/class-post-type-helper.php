@@ -150,6 +150,7 @@ class Post_Type_Helper
 		$this->loader->add_action('pre_get_posts', $plugin_public, 'inject_custom_tax_query');
 
 		$this->loader->add_filter('pth_get_archive_hero', $plugin_public, 'get_custom_hero_by_query');
+		$this->loader->add_filter('term_link', $plugin_public, 'get_pth_term_link', 50, 3);
 	}
 
 	private function define_ajax_hooks()

@@ -118,7 +118,7 @@ jQuery(function ($) {
     const q = buildQueryFromFilters(state.filters);
 
     if (q) {
-      parts.push("q", q);
+      parts.push(q);
     }
 
     const next = parts.filter(Boolean).join("/") + "/";

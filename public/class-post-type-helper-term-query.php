@@ -15,7 +15,7 @@ class Post_Type_Helper_Empty_Term_Query
 
     private $terms_in_use = array();
 
-    private $terms_with_posts = array();
+    public $terms_with_posts = array();
 
     public function __construct()
     {
@@ -58,18 +58,20 @@ class Post_Type_Helper_Empty_Term_Query
 
     public function create_term_query_sql()
     {
+        global $wpdb;
+
         $sub_queries = $this->create_term_sub_query_sql();
         $where = 'WHERE ' . join(" AND ", array_map(function ($q) {
             return "p.ID IN ({$q})";
         }, $sub_queries));
 
         $sql = "SELECT DISTINCT(t.term_id)
-                FROM `wp_posts` p
-                LEFT JOIN `wp_term_relationships` r
+                FROM `{$wpdb->posts}` p
+                LEFT JOIN `{$wpdb->term_relationships}` r
                 ON p.ID = r.object_id
-                LEFT JOIN `wp_terms` t
+                LEFT JOIN `{$wpdb->terms}` t
                 ON r.term_taxonomy_id = t.term_id
-                LEFT JOIN `wp_term_taxonomy` x
+                LEFT JOIN `{$wpdb->term_taxonomy}` x
                 ON t.term_id = x.term_id
                 {$where}";
 
@@ -92,12 +94,12 @@ class Post_Type_Helper_Empty_Term_Query
             $sql[] = $wpdb->prepare("SELECT
                 p{$i}.ID
             FROM
-                `wp_posts` p{$i}
-            LEFT JOIN `wp_term_relationships` r{$i} ON
+                `{$wpdb->posts}` p{$i}
+            LEFT JOIN `{$wpdb->term_relationships}` r{$i} ON
                 p{$i}.ID = r{$i}.object_id
-            LEFT JOIN `wp_terms` t{$i} ON
+            LEFT JOIN `{$wpdb->terms}` t{$i} ON
                 r{$i}.term_taxonomy_id = t{$i}.term_id
-            LEFT JOIN `wp_term_taxonomy` x{$i} ON
+            LEFT JOIN `{$wpdb->term_taxonomy}` x{$i} ON
                 t{$i}.term_id = x{$i}.term_id
             WHERE
                 x{$i}.taxonomy = '%s' AND p{$i}.post_status = 'publish' AND t{$i}.term_id IN({$placeholders})

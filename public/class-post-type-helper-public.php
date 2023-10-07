@@ -130,9 +130,9 @@ class Post_Type_Helper_Public
 				// );
 
 				add_rewrite_rule(
-					"{$post_type_slug}/q/(.*)",
+					"{$post_type_slug}\/(.+)",
 					"index.php?post_type={$post_type}&q=\$matches[1]",
-					'top'
+					"top"
 				);
 			}
 		}
@@ -231,6 +231,29 @@ class Post_Type_Helper_Public
 		return null;
 	}
 
+	public function get_pth_term_link($termlink, $term, $taxonomy_name)
+	{
+		$post_type_names = $this->post_types();
+		$linked_post_type = null;
+
+		foreach ($post_type_names as $post_type_name) {
+			$taxonomies = get_object_taxonomies($post_type_name);
+			$post_type = get_post_type_object($post_type_name);
+
+			if (in_array($taxonomy_name, $taxonomies, true)) {
+				$linked_post_type = $post_type;
+				break;
+			}
+		}
+
+		if (!$linked_post_type) {
+			return $termlink;
+		}
+
+		$taxonomy = get_taxonomy($taxonomy_name);
+		return home_url("/{$post_type->rewrite["slug"]}/{$taxonomy->rewrite["slug"]}/{$term->slug}/");
+	}
+
 	public function register_acf_fields()
 	{
 		if (!function_exists('acf_add_options_page')) {
@@ -301,6 +324,7 @@ class Post_Type_Helper_Public
 	static private function archive_post_type_hero_field_args($post_type)
 	{
 		$post_type_object = get_post_type_object($post_type);
+		$post_type_link = get_post_type_archive_link($post_type);
 
 		return array(
 			'key' => 'archive_post_type_hero_' . $post_type,
@@ -387,7 +411,7 @@ class Post_Type_Helper_Public
 									),
 									'default_value' => '',
 									'placeholder' => '',
-									'prepend' => 'q/',
+									'prepend' => $post_type_link,
 									'append' => '',
 									'maxlength' => '',
 								)
