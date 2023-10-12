@@ -117,12 +117,18 @@ class Post_Type_Helper_Public
 		foreach ($this->post_types as $post_type) {
 			$post_type_object = get_post_type_object($post_type);
 			$post_type_slug = isset($post_type_object->rewrite['slug']) ? $post_type_object->rewrite['slug'] : str_replace('_', '-', $post_type);
+			$taxonomy_names = get_object_taxonomies($post_type);
 
-			add_rewrite_rule(
-				"{$post_type_slug}\/([^\/]+)\/(.+)",
-				"index.php?post_type={$post_type}&q=\$matches[1]/\$matches[2]",
-				"top"
-			);
+			foreach ($taxonomy_names as $taxonomy_name) {
+				$taxonomy = get_taxonomy($taxonomy_name);
+				$taxonomy_slug = isset($taxonomy->rewrite['slug']) ? $taxonomy->rewrite['slug'] : str_replace('_', '-', $taxonomy_name);
+
+				add_rewrite_rule(
+					"{$post_type_slug}\/({$taxonomy_slug})\/(.+)",
+					"index.php?post_type={$post_type}&q=\$matches[1]/\$matches[2]",
+					"top"
+				);
+			}
 		}
 	}
 
